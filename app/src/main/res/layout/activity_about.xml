@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:text="@string/head"
+            android:layout_marginBottom="20dp"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/abt"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/terms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/terms"
+            android:textAlignment="center"
+            android:gravity="center_horizontal"
+            android:layout_below="@+id/abt"
+            android:layout_marginBottom="20dp"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/devH"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/devs"
+            android:textStyle="bold"
+            android:layout_marginBottom="20dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/terms"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/dev1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/deva"
+            android:textAlignment="center"
+            android:gravity="center_horizontal"
+            android:layout_below="@+id/devH"
+            android:layout_marginBottom="20dp"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/dev2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/devb"
+            android:textAlignment="center"
+            android:gravity="center_horizontal"
+            android:layout_below="@+id/dev1"
+            android:layout_marginBottom="20dp"
+            android:textSize="16sp"/>
+
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dev2"
+            android:layout_marginTop="20dp"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:text="@string/install"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:id="@+id/checkbox"
+            android:layout_marginBottom="20dp"
+            android:checked="true" />
+
+        <TextView
+            android:id="@+id/thank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thank you for choosing us. Always at your service."
+            android:textStyle="bold"
+            android:layout_marginBottom="20dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/checkbox"
+            android:textSize="16sp"
+            app:drawableLeftCompat="@drawable/ic_baseline_thumb_up_24"
+            app:drawableTint="@color/colorAccent"/>
+
+        <TextView
+            android:id="@+id/caut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/beware_of_fraud"
+            android:textStyle="bold"
+            android:layout_marginBottom="20dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/thank"
+            android:textSize="16sp"
+            app:drawableLeftCompat="@drawable/ic_baseline_warning_24"
+            app:drawableTint="@color/colorAccent"/>
+
+        <Button
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/caut"
+            android:background="@drawable/ic_baseline_arrow_back_24"
+            android:onClick="onArrBack2" />
+
+    </RelativeLayout>
+</ScrollView>

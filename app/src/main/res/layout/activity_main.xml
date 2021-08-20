@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.edit.prismappbt.MainActivity">
+
+    <ListView
+        android:id="@+id/messages"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/printOn"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="5dp"
+        android:background="@color/colorAccent1"
+        android:divider="#ffffff"
+        android:dividerHeight="5dp"
+        android:scrollbarSize="10dp"
+        android:scrollbars="vertical"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="#ddd"
+        android:textStyle="bold"
+        android:text="FEED PAPER"
+        android:id="@+id/printOn" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorAccent"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:text="FEED PAPER"
+        android:id="@+id/printOff"
+        android:visibility="invisible"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:layout_margin="30dp"
+        android:id="@+id/lay2"
+        android:visibility="gone"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:id="@+id/label"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/red"/>
+
+        <TextView
+            android:layout_below="@+id/label"
+            android:textColor="@color/white"
+            android:id="@+id/label1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Type here to test:" />
+
+        <EditText
+            android:id="@+id/entry"
+            android:textColor="@color/white"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/label1"
+            android:hint="Your Text"
+            android:autofillHints="Your Text"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/label2"
+            android:textColor="@color/white"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Paired Devices:"
+            android:layout_below="@id/entry"
+            android:layout_marginBottom="10dp"/>
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/listV"
+            android:layout_below="@+id/label2"
+            android:visibility="gone"/>
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/radioG"
+            android:layout_below="@+id/listV">
+
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/btnV"
+            android:layout_below="@id/radioG">
+
+            <Button
+                android:id="@+id/open"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:text="BT"
+                android:layout_marginRight="5dp"
+                android:onClick="onFind" />
+
+            <Button
+                android:id="@+id/connect"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:text="Conn"
+                android:layout_marginRight="5dp"
+                android:onClick="onConn" />
+
+            <Button
+                android:id="@+id/send"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:text="Test"
+                android:layout_marginRight="5dp"
+                android:onClick="onTest" />
+
+            <Button
+                android:id="@+id/close"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:text="Close"
+                android:onClick="onCloseBT" />
+        </LinearLayout>
+
+        <Button
+            android:layout_width="60dp"
+            android:drawableTint="@color/white"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/btnV"
+            android:background="@drawable/ic_baseline_arrow_back_24"
+            android:onClick="onArrBack" />
+    </RelativeLayout>
+
+    <include layout="@layout/activity_about"
+        android:visibility="gone" />
+
+</RelativeLayout>

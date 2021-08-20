@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:title="@string/delete_all_threads"
+        android:id="@+id/delete" />
+    <item
+        android:title="@string/license_status"
+        android:id="@+id/licence"
+        android:onClick="licenceCheck"
+        app:showAsAction="never"/>
+    <item
+        android:title="Activate Printing"
+        android:onClick="printOn"
+        android:id="@+id/printerOn"
+        app:showAsAction="never"        />
+
+    <item
+        android:title="Deactivate Printing"
+        android:onClick="printOff"
+        android:visible="false"
+        android:id="@+id/printerOff"
+        app:showAsAction="never" />
+    <item
+        android:title="Print Logo"
+        android:onClick="onClickBmp"
+        app:showAsAction="never" />
+    <item
+        android:title="About"
+        android:onClick="onAbout"
+        app:showAsAction="never"/>
+    <item
+        android:title="@string/exit"
+        android:id="@+id/exit"
+        app:showAsAction="never"/>
+    <item
+        android:title="BluetoothDis"
+        android:id="@+id/bt"
+        android:visible="true"
+        android:icon="@drawable/ic_baseline_bluetooth_disabled_24"
+        app:showAsAction="always" />
+
+    <item
+        android:title="Bluetooth"
+        android:id="@+id/bt2"
+        android:visible="false"
+        android:icon="@drawable/ic_baseline_bluetooth_24"
+        app:showAsAction="always" />
+
+    <item
+        android:title="BluetoothConn"
+        android:id="@+id/bt3"
+        android:visible="false"
+        android:icon="@drawable/ic_baseline_bluetooth_connected_24"
+        app:showAsAction="always" />
+
+    <item
+        android:title="@string/printer_on"
+        android:id="@+id/prnOnIcon"
+        android:icon="@drawable/ic_baseline_print_24"
+        android:visible="false"
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction"
+        android:onClick="iconOn"/>
+    <item
+        android:title="@string/printer_off"
+        android:id="@+id/prnOffIcon"
+        android:icon="@drawable/ic_baseline_print_disabled_24"
+        app:showAsAction="always"
+        android:onClick="iconOff"/>
+</menu>

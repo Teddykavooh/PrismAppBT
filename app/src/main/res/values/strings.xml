@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">PrismApp</string>
+    <string name="print">Print</string>
+<!--    Temporary-->
+    <string name="selectGray">Select Print density :   </string>
+    <string name="activate_print">ACTIVATE PRINT</string>
+    <string name="deactivate_print">DEACTIVATE PRINT</string>
+    <string name="delete_all_threads">Delete_all_threads</string>
+    <string name="file_explorer">file_explorer</string>
+    <string name="printer_on">Printer On</string>
+    <string name="printer_off">Printer Off</string>
+    <string name="exit">Exit</string>
+    <string name="license_status">License Status</string>
+    <string name="enter_your_license">Enter your License.</string>
+    <string name="ErrNoPaper">No Print Paper</string>
+    <string name="terms">PrismApp is made to print out messages for your efficiency.
+        It does some more basic functionality like: Deleting messages etc. PrismApp will not be
+        initiated if needed permissions are not accepted. This is safe and does not advocate for
+        malice. No personal details will be enquired. If they are, refrain. Charges may apply. If
+        you have an issue or need modification contact your app source.</string>
+    <string name="beware_of_fraud">Beware of fraud.</string>
+    <string name="install">By installing PrismApp, you have agreed to Terms and Conditions.</string>
+    <string name="devb">1. Isabel Nzioka.<br /> Email Address: isabelkaindu@gmail.com</string>
+    <string name="deva">1. Antony Kavoo.<br /> Email Address: teddykavooh@gmail.com</string>
+    <string name="devs">Developers</string>
+    <string name="head">About PrismApp</string>
+    <string name="btM2">Bluetooth device found.</string>
+    <string name="btM1">No bluetooth adapter available.</string>
+    <string name="btM3">Bluetooth Opened.</string>
+    <string name="datasnt">Data sent.</string>
+    <string name="btM4">Bluetooth Closed.</string>
+</resources>
