@@ -39,7 +39,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
                 smsMessageStr.append("From: ").append(address).append("\n");
                 smsMessageStr.append(smsBody).append("\n");
                 smsMessageStr.append("Date: ").append(date).append("\n");
-                //Log.e("Auto Print SMS Broad...", "New sms ref: " + smsIndex);
+                Log.e("Auto Print SMS Broad...", "New sms ref: " + smsBody);
 
                 MainActivity inst = MainActivity.instance();
                 inst.updateInbox(smsMessageStr.toString());
