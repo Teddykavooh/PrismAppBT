@@ -4,21 +4,26 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.role.RoleManager;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
+import android.provider.Telephony;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -49,11 +54,13 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppSelectedListener {
     ArrayList<String> smsMessagesList = new ArrayList<>();
     ListView messages;
     ArrayAdapter<String> arrayAdapter;
@@ -202,8 +209,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void licenceCheck(MenuItem i) {
-        if (deviceId.equals("f768fab6cc498347")) {
-            //01574ee85e043998 \\ 8d8fb130395b1210
+        if (deviceId.equals("1fc74ff9a9ebb122")) {
+            //01574ee85e043998 \\ 8d8fb130395b1210 fcf52d5c63cb4676
             Toast.makeText(getApplicationContext(), "You are licensed.",
                     Toast.LENGTH_SHORT).show();
 
@@ -217,8 +224,9 @@ public class MainActivity extends AppCompatActivity {
 
     //Printer Activation and Deactivation
     public void printOn(MenuItem i) {
-        if (deviceId.equals("f768fab6cc498347")) {
-            /*Default:f768fab6cc498347
+        if (deviceId.equals("1fc74ff9a9ebb122")) {
+            /*Major: 707359bf98e48f4c
+            Default:f768fab6cc498347
             Client: 95fd1740c34ebbb9
               Jim:490aa30c23ae7015
               Old: e7171c1fe9945676*/
@@ -272,16 +280,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onAbout(MenuItem i) {
-        setContentView(R.layout.activity_about);
+        onPause();
+        Intent aboutIntent = new Intent(MainActivity.this, AboutActivity.class);
+        startActivity(aboutIntent);
+    }
+
+    public void mkDefault(MenuItem i) {
+        msgAppChooser();
     }
 
     public void onArrBack(View v) {
         myLay2.setVisibility(View.GONE);
     }
 
-    public void onArrBack2(View v) {
-        setContentView(R.layout.activity_main);
-    }
+//    public void onArrBack2(View v) {
+//        setContentView(R.layout.activity_main);
+//    }
 
     public void onPrnOpen() {
         if (powerLaunch == 1) {
@@ -388,7 +402,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Get Verifier
         deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-        //System.out.println(deviceId);
+        System.out.println(deviceId);
         setContentView(R.layout.activity_main);
 
         // Get the application context
@@ -433,14 +447,8 @@ public class MainActivity extends AppCompatActivity {
                         .setMessage("Print this message?")
                         .setPositiveButton("PRINT", (dialogInterface, i12) -> {
                             /* Converting listView element to string. */
-                            msg = "================================\n" + "REDBERRY LOUNGE\n" +
-                            "NAIROBI-KENYA\n" +
-                            "================================\n" +
-                            "M-PESA PAYMENT DETAILS:-\n" +
-                            "================================\n" + ((TextView) view).getText() + "\n" +
-                            "================================\n" +
-                            "TILL Number: 5853023\n" +
-                            "================================\n" + "\n" + "\n" + "\n" + "\n";
+                            msg = ((TextView) view).getText() + "\n" +
+                            "\n" + "\n" + "\n" + "\n";
                             //Log.e("My clicked sms", "Content: \n" + msg);
                             //Debug
                             /*
@@ -496,6 +504,128 @@ public class MainActivity extends AppCompatActivity {
         /*IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         receiver = new BatteryReceiver();
         registerReceiver(receiver, filter);*/
+    }
+
+    //Check for default
+    /**
+     * method checks to see if app is currently set as default launcher
+     * @return boolean true means currently set as default, otherwise false
+     */
+    private boolean isMyAppMsgDefault() {
+        final IntentFilter filter = new IntentFilter(Intent.ACTION_MAIN);
+        filter.addCategory(Intent.CATEGORY_DEFAULT);
+
+        List<IntentFilter> filters = new ArrayList<IntentFilter>();
+        filters.add(filter);
+
+        final String myPackageName = getPackageName();
+        List<ComponentName> activities = new ArrayList<>();
+        final PackageManager packageManager = getPackageManager();
+
+        packageManager.getPreferredActivities(filters, activities, null);
+
+        for (ComponentName activity : activities) {
+            if (myPackageName.equals(activity.getPackageName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * method starts an intent that will bring up a prompt for the user
+     * to select their default launcher. It comes up each time method is called.
+     */
+    private void msgAppChooser() {
+        RoleManager roleManager;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            roleManager = getApplicationContext().getSystemService(RoleManager.class);
+            if (roleManager.isRoleAvailable(RoleManager.ROLE_SMS)) {
+                if (roleManager.isRoleHeld(RoleManager.ROLE_SMS)) {
+                    Toast.makeText(getApplicationContext(), "PrismApp set as default.", Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(Settings.ACTION_MANAGE_DEFAULT_APPS_SETTINGS);
+                    startActivity(i);
+//                     Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+//                     intent.setData(Uri.parse("package:" + getPackageName()));
+//                     startActivity(intent);
+                } else {
+                    Intent roleRequestIntent = roleManager.createRequestRoleIntent(RoleManager.ROLE_SMS);
+                    startActivityForResult(roleRequestIntent, 2);
+                }
+            }
+        } else {
+            //If android version is prior to Android 10
+            selectDefaultSmsPackage();
+        }
+//             Log.e("msgAppChooser: ", "MsgAppChooser() initiated, isNotDefault," +
+//                     " Package name: " + myPackageName);
+        /*String myPackageName = getPackageName();
+        Intent setSmsAppIntent = new Intent(Telephony.Sms.Intents.ACTION_CHANGE_DEFAULT);
+        setSmsAppIntent.putExtra(Telephony.Sms.Intents.EXTRA_PACKAGE_NAME, myPackageName);
+        startActivity(setSmsAppIntent);*/
+
+    }
+
+    //Longer Method
+    private static  final int DEF_SMS_REQ = 0;
+    private AppInfo selectedApp;
+    private void selectDefaultSmsPackage() {
+        @SuppressLint("QueryPermissionsNeeded") final List<ResolveInfo> receivers = getPackageManager().queryBroadcastReceivers(new
+                Intent(Telephony.Sms.Intents.SMS_DELIVER_ACTION), 0);
+        final ArrayList<AppInfo> apps = new ArrayList<>();
+        for (ResolveInfo info : receivers) {
+            final String packageName = info.activityInfo.packageName;
+            final String appName = getPackageManager().getApplicationLabel(info.activityInfo.applicationInfo).toString();
+            final Drawable icon = getPackageManager().getApplicationIcon(info.activityInfo.applicationInfo);
+            apps.add(new AppInfo(packageName, appName, icon));
+        }
+        apps.sort(new Comparator<AppInfo>() {
+            @Override
+            public int compare(AppInfo app1, AppInfo app2) {
+                return app1.appName.compareTo(app2.appName);
+            }
+        });
+        new AppsDialog(this, apps).show();
+    }
+
+    public void onAppSelected(AppInfo selectedApp) {
+        this.selectedApp = selectedApp;
+        Intent intent = new Intent(Telephony.Sms.Intents.ACTION_CHANGE_DEFAULT);
+        intent.putExtra(Telephony.Sms.Intents.EXTRA_PACKAGE_NAME, selectedApp.packageName);
+        startActivityForResult(intent, DEF_SMS_REQ);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == DEF_SMS_REQ) {
+            String currentDefault = Telephony.Sms.getDefaultSmsPackage(this);
+            boolean isDefault = selectedApp.packageName.equals(currentDefault);
+
+            String msg = selectedApp.appName + (isDefault ?
+                    " successfully set as default" :
+                    " not set as default");
+
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public static class AppInfo {
+        String appName;
+        String packageName;
+        Drawable icon;
+
+        public AppInfo(String packageName, String appName, Drawable icon) {
+            this.packageName = packageName;
+            this.appName = appName;
+            this.icon = icon;
+        }
+
+        @NonNull
+        @Override
+        public String toString() {
+            return appName;
+        }
     }
 
     public void updateInbox(final String smsMessage) {
@@ -650,7 +780,11 @@ public class MainActivity extends AppCompatActivity {
             "android.intent.action.DISABLE_FUNCTION_LAUNCH";
     private void disableFunctionLaunch(boolean state) {
         Intent disablePowerKeyIntent = new Intent(DISABLE_FUNCTION_LAUNCH_ACTION);
-        disablePowerKeyIntent.putExtra("state", state);
+        if (state) {
+            disablePowerKeyIntent.putExtra("state", true);
+        } else {
+            disablePowerKeyIntent.putExtra("state", false);
+        }
         sendBroadcast(disablePowerKeyIntent);
     }
 
@@ -660,6 +794,8 @@ public class MainActivity extends AppCompatActivity {
         String newText = arrayAdapter.getItem(0);
         refreshSmsInbox();
         if (powerLaunch == 1) {
+            refreshSmsInbox();
+            refreshSmsInbox();
             refreshSmsInbox();
             msg = newText + "\n" + "\n" + "\n" + "\n";
             sendData();
@@ -698,7 +834,7 @@ public class MainActivity extends AppCompatActivity {
                 //Privileged
                 myGroup2 = findViewById(R.id.radioG);
                 if (pairedDevices.size() > 0) {
-
+                    myLabel.setText("Paired devices found.");
                     //RadioGroup
                     myGroup2.removeAllViews();
                     for (BluetoothDevice device : pairedDevices) {
@@ -719,9 +855,11 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                     });
+                } else {
+                    myLabel.setText(R.string.btM2);
                 }
 
-                myLabel.setText(R.string.btM2);
+//                myLabel.setText(R.string.btM2);
             }
 
         }catch(Exception e){

@@ -28,6 +28,10 @@
         android:onClick="onClickBmp"
         app:showAsAction="never" />
     <item
+        android:title="Default Activity"
+        android:onClick="mkDefault"
+        app:showAsAction="never"/>
+    <item
         android:title="About"
         android:onClick="onAbout"
         app:showAsAction="never"/>

@@ -20,11 +20,11 @@
         you have an issue or need modification contact your app source.</string>
     <string name="beware_of_fraud">Beware of fraud.</string>
     <string name="install">By installing PrismApp, you have agreed to Terms and Conditions.</string>
-    <string name="devb">1. Isabel Nzioka.<br /> Email Address: isabelkaindu@gmail.com</string>
+    <string name="devb">2. Isabel Nzioka.<br /> Email Address: isabelkaindu@gmail.com</string>
     <string name="deva">1. Antony Kavoo.<br /> Email Address: teddykavooh@gmail.com</string>
     <string name="devs">Developers</string>
     <string name="head">About PrismApp</string>
-    <string name="btM2">Bluetooth device found.</string>
+    <string name="btM2">Bluetooth device found, No paired devices!</string>
     <string name="btM1">No bluetooth adapter available.</string>
     <string name="btM3">Bluetooth Opened.</string>
     <string name="datasnt">Data sent.</string>
