@@ -32,9 +32,16 @@
         android:onClick="mkDefault"
         app:showAsAction="never"/>
     <item
+        android:title="Receipt Style"
+        android:id="@+id/recStyle"
+        android:onClick="onStyle"
+        android:visible="true"
+        app:showAsAction="never"/>
+    <item
         android:title="About"
         android:onClick="onAbout"
-        app:showAsAction="never"/>
+        app:showAsAction="never"
+        android:visible="false"/>
     <item
         android:title="@string/exit"
         android:id="@+id/exit"

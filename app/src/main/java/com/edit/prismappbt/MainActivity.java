@@ -14,6 +14,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
@@ -59,6 +60,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import org.apache.commons.lang3.StringUtils;
 
 public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppSelectedListener {
     ArrayList<String> smsMessagesList = new ArrayList<>();
@@ -73,6 +75,9 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
     private Button prnDea;
     private String deviceId;
     int powerLaunch = 0;
+    SharedPreferences myData;
+    private String spHeader;
+    private String spFooter;
 
     // android built in classes for bluetooth operations
     BluetoothAdapter mBluetoothAdapter;
@@ -167,8 +172,13 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
                         .setMessage("All threads will be deleted")
                         .setPositiveButton("DELETE", (dialogInterface, i) -> {
                             //code that will be run if someone chooses delete
-                            smsMessagesList.clear();
-                            arrayAdapter.notifyDataSetChanged();
+                            if (deleteAll()) {
+                                smsMessagesList.clear();
+                                arrayAdapter.notifyDataSetChanged();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Delete all failed.",
+                                        Toast.LENGTH_SHORT).show();
+                            }
                         })
                         .setNegativeButton("CANCEL", null)
                         .show();
@@ -209,8 +219,9 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
     }
 
     public void licenceCheck(MenuItem i) {
-        if (deviceId.equals("1fc74ff9a9ebb122")) {
-            //01574ee85e043998 \\ 8d8fb130395b1210 fcf52d5c63cb4676
+        if (deviceId.equals("e30360c8e147a88b")) {
+            //1fc74ff9a9ebb122 fcf52d5c63cb4676
+            //Emulator Android6 60b5215570850192
             Toast.makeText(getApplicationContext(), "You are licensed.",
                     Toast.LENGTH_SHORT).show();
 
@@ -224,12 +235,7 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
 
     //Printer Activation and Deactivation
     public void printOn(MenuItem i) {
-        if (deviceId.equals("1fc74ff9a9ebb122")) {
-            /*Major: 707359bf98e48f4c
-            Default:f768fab6cc498347
-            Client: 95fd1740c34ebbb9
-              Jim:490aa30c23ae7015
-              Old: e7171c1fe9945676*/
+        if (deviceId.equals("e30360c8e147a88b")) {
             /*set BT Conn ON*/
 
             //Privileged
@@ -280,13 +286,17 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
     }
 
     public void onAbout(MenuItem i) {
-        onPause();
         Intent aboutIntent = new Intent(MainActivity.this, AboutActivity.class);
         startActivity(aboutIntent);
     }
 
     public void mkDefault(MenuItem i) {
         msgAppChooser();
+    }
+
+    public void onStyle(MenuItem i) {
+        Intent aboutIntent = new Intent(MainActivity.this, ReceiptStyleActivity.class);
+        startActivity(aboutIntent);
     }
 
     public void onArrBack(View v) {
@@ -372,13 +382,73 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
     };
 
     public void checkBT() {
-        if (mBluetoothAdapter.isEnabled()) {
-            btStatus = 1;
-            //Log.e("checkBT Method", "Was started");
+        if(mBluetoothAdapter == null) {
+            Toast.makeText(getApplicationContext(), "Missing bluetooth adapter.", Toast.LENGTH_SHORT).show();
         } else {
-            btStatus = 0;
+            if (mBluetoothAdapter.isEnabled()) {
+                btStatus = 1;
+                //Log.e("checkBT Method", "Was started");
+            } else {
+                btStatus = 0;
+            }
+            invalidateOptionsMenu();
         }
-        invalidateOptionsMenu();
+    }
+
+    //Delete all functionality
+    private boolean deleteAll() {
+        boolean isDeleted = false;
+        Uri inboxUri = Uri.parse("content://sms/inbox");
+        Cursor c = getApplicationContext().getContentResolver().query(inboxUri , null, null, null, null);
+        while (c.moveToNext()) {
+            try {
+                // Delete the SMS
+                String pid = c.getString(0); // Get id;
+                String uri = "content://sms/" + pid;
+                getApplicationContext().getContentResolver().delete(Uri.parse(uri),
+                        null, null);
+                isDeleted = true;
+            } catch (Exception e) {
+                isDeleted = false;
+            }
+        }
+        c.close();
+        return isDeleted;
+    }
+
+    public void onGetSp() {
+        myData = getSharedPreferences("com.prisms.smsapp1", MODE_PRIVATE);
+        //Log.e("onGetSp: ", "Initiated");
+        String spHeaderI = myData.getString("Header", "");
+        String spFooterI = myData.getString("Footer", "");
+        if ((spHeaderI != null) || (spFooterI != null)) {
+            if (!(spHeaderI.equals("")) || !(spFooterI.equals(""))) {
+                spHeader = myData.getString("Header", "");
+                if (!(spHeaderI.equals(""))) {
+                    spHeader = myData.getString("Header", "");
+                } else {
+                    Toast.makeText(getApplicationContext(), "Header is empty.", Toast.LENGTH_SHORT).show();
+                    spHeader = "________________________________\n" + "M-PESA PAYMENTS DETAILS\n" +
+                            "________________________________\n";
+                }
+                if (!(spFooterI.equals(""))) {
+                    spFooter = myData.getString("Footer", "");
+                } else {
+                    Toast.makeText(getApplicationContext(), "Footer is empty.", Toast.LENGTH_SHORT).show();
+                    spFooter = "================================\n" + "Thank you!!!\n";
+                }
+            } else {
+                Toast.makeText(getApplicationContext(), "No saved receipt format.", Toast.LENGTH_SHORT).show();
+                spHeader = "________________________________\n" + "M-PESA PAYMENTS DETAILS\n" +
+                        "________________________________\n";
+                spFooter = "================================\n" + "Thank you!!!\n";
+                //Log.e("onGetSp: ", "Toast should happen");
+            }
+        } else {
+            spHeader = "________________________________\n" + "M-PESA PAYMENTS DETAILS\n" +
+                    "________________________________\n";
+            spFooter = "================================\n" + "Thank you!!!\n";
+        }
     }
 
     /* Displaying messages.*/
@@ -402,7 +472,7 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
 
         //Get Verifier
         deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-        System.out.println(deviceId);
+        //System.out.println(deviceId);
         setContentView(R.layout.activity_main);
 
         // Get the application context
@@ -435,7 +505,7 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
             Toast.makeText(this, "Android version is not supported.",
                     Toast.LENGTH_SHORT).show();
         }
-
+        onGetSp();
         /*print functionality*/
         messages.setOnItemClickListener((adapterView, view, i, l) -> {
             if (powerLaunch == 1) {
@@ -447,7 +517,7 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
                         .setMessage("Print this message?")
                         .setPositiveButton("PRINT", (dialogInterface, i12) -> {
                             /* Converting listView element to string. */
-                            msg = ((TextView) view).getText() + "\n" +
+                            msg = spHeader + "\n" + ((TextView) view).getText() + "\n" + spFooter + "\n" +
                             "\n" + "\n" + "\n" + "\n";
                             //Log.e("My clicked sms", "Content: \n" + msg);
                             //Debug
@@ -470,14 +540,36 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
 
         /*delete functionality*/
         messages.setOnItemLongClickListener((adapterView, view, i, l) -> {
-            final int msgToDelete = i;
+            final int arrToDelete = i;
             new AlertDialog.Builder(MainActivity.this)
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setTitle("Delete")
                     .setMessage("This message will be deleted")
                     .setPositiveButton("DELETE", (dialogInterface, i1) -> {
-                        smsMessagesList.remove(msgToDelete);
-                        arrayAdapter.notifyDataSetChanged();
+                        String msgToDelete = (String) ((TextView) view).getText();
+                        String newStrId = StringUtils.substringBetween(msgToDelete, "REF: ", "From: ");
+//                                Log.e("onLongClick i ", "This is idStr: " + newStrId);
+                        int newId = Integer.parseInt(newStrId.trim());
+//                                Log.e("onLongClick i ", "This is idInt: " + newId);
+                        ContentResolver contentResolver = getContentResolver();
+                        Cursor smsInboxCursor = contentResolver.query(Uri.parse("content://sms/inbox"),
+                                null, null, null, null);
+                        assert smsInboxCursor != null;
+                        int indexId = smsInboxCursor.getColumnIndex("_id");
+                        if (indexId < 0 || !smsInboxCursor.moveToFirst()) return;
+                        try {
+                            do {
+                                int id = smsInboxCursor.getInt(indexId);
+                                if (id == newId) {
+                                    contentResolver.delete(Uri.parse("content://sms/" + id), null, null);
+                                    smsMessagesList.remove(arrToDelete);
+                                    arrayAdapter.notifyDataSetChanged();
+                                }
+                            } while (smsInboxCursor.moveToNext());
+                        } catch (Exception e) {
+                            Toast.makeText(getApplicationContext(),"Deleting message failed.", Toast.LENGTH_SHORT).show();
+                        }
+                        smsInboxCursor.close();
                     })
                     .setNegativeButton("CANCEL", null)
                     .show();
@@ -555,7 +647,11 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
             }
         } else {
             //If android version is prior to Android 10
-            selectDefaultSmsPackage();
+            //selectDefaultSmsPackage();
+            //String myPackageName = getPackageName();
+            Intent setSmsAppIntent = new Intent(Telephony.Sms.Intents.ACTION_CHANGE_DEFAULT);
+            //setSmsAppIntent.putExtra(Telephony.Sms.Intents.EXTRA_PACKAGE_NAME, myPackageName);
+            startActivity(setSmsAppIntent);
         }
 //             Log.e("msgAppChooser: ", "MsgAppChooser() initiated, isNotDefault," +
 //                     " Package name: " + myPackageName);
@@ -569,6 +665,7 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
     //Longer Method
     private static  final int DEF_SMS_REQ = 0;
     private AppInfo selectedApp;
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void selectDefaultSmsPackage() {
         @SuppressLint("QueryPermissionsNeeded") final List<ResolveInfo> receivers = getPackageManager().queryBroadcastReceivers(new
                 Intent(Telephony.Sms.Intents.SMS_DELIVER_ACTION), 0);
@@ -797,7 +894,7 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
             refreshSmsInbox();
             refreshSmsInbox();
             refreshSmsInbox();
-            msg = newText + "\n" + "\n" + "\n" + "\n";
+            msg = spHeader + "\n" + newText + "\n" + spFooter + "\n" + "\n" + "\n" + "\n";
             sendData();
         } else {
             Toast.makeText(getApplicationContext(), "Activate print to engage auto-printing.",

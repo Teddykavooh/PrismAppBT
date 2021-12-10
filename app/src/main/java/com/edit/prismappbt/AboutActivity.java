@@ -26,14 +26,13 @@ public class AboutActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        /*Intent aboutIntent = new Intent(AboutActivity.this, MainActivity.class);
-        startActivity(aboutIntent);*/
-        MainActivity.instance().onResume();
         return super.onKeyDown(keyCode, event);
     }
 
-    public void onArrBack2(View v) {
-        Intent aboutIntent = new Intent(AboutActivity.this, MainActivity.class);
-        startActivity(aboutIntent);
+    public void onArrBack3(View v) {
+        Intent printIntent = new Intent(AboutActivity.this, MainActivity.class);
+//        FLAG_ACTIVITY_REORDER_TO_FRONT
+        printIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(printIntent);
     }
 }

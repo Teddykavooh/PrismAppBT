@@ -26,6 +26,7 @@
         </activity>
 
         <activity android:name=".AboutActivity" />
+        <activity android:name=".ReceiptStyleActivity" android:theme="@style/AppTheme2"/>
 
         <!-- Activity that allows the user to send new SMS/MMS messages -->
         <activity android:name=".ComposeSmsActivity"

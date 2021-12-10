@@ -102,16 +102,32 @@
             android:layout_below="@+id/thank"
             android:textSize="16sp"
             app:drawableLeftCompat="@drawable/ic_baseline_warning_24"
-            app:drawableTint="@color/colorAccent"/>
+            app:drawableTint="@color/colorAccent"
+            android:textColor="#000" />
 
-        <Button
-            android:layout_width="60dp"
+<!--        <Button-->
+<!--            android:layout_width="60dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_margin="10dp"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_below="@+id/caut"-->
+<!--            android:background="@drawable/ic_baseline_arrow_back_24"-->
+<!--            android:onClick="onArrBack2" />-->
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
+            android:text="Back"
+            android:onClick="onArrBack3"
+            android:labelFor="@+id/styleB"
+            android:textColor="#000"
             android:layout_below="@+id/caut"
-            android:background="@drawable/ic_baseline_arrow_back_24"
-            android:onClick="onArrBack2" />
+            android:clickable="true"
+            android:focusable="true"
+            app:drawableTopCompat="@drawable/ic_baseline_arrow_back_24"
+            app:drawableTint="#000" />
 
     </RelativeLayout>
 </ScrollView>

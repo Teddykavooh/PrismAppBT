@@ -40,10 +40,10 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
                 long smsTime = smsMessage.getTimestampMillis();
                 Date date = new Date(smsTime);
 
-                smsMessageStr.append("REF: ").append(smsIndex).append("\n");
+                /*smsMessageStr.append("REF: ").append(smsIndex).append("\n");
                 smsMessageStr.append("From: ").append(address).append("\n");
                 smsMessageStr.append(smsBody).append("\n");
-                smsMessageStr.append("Date: ").append(date).append("\n");
+                smsMessageStr.append("Date: ").append(date).append("\n");*/
 //                Log.e("Auto Print SMS Broad...", "New sms ref: " + smsBody);
 
                 //Save to inbox if message is delivered
@@ -58,10 +58,10 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
                     context.getContentResolver().insert(uri, values);
                 }
 
-                MainActivity inst = MainActivity.instance();
+                /*MainActivity inst = MainActivity.instance();
                 inst.updateInbox(smsMessageStr.toString());
                 inst.refreshSmsInbox();
-                inst.refreshSmsInbox();
+                inst.refreshSmsInbox();*/
             }
 
             /* Notification Tone */
