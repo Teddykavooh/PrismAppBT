@@ -9,6 +9,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Telephony;
 import android.telephony.SmsMessage;
 import android.util.Log;
 
@@ -19,49 +20,118 @@ import java.util.Objects;
 
 //Responsible for message intercepting.
 public class SmsBroadcastReceiver extends BroadcastReceiver {
-    public static final String SMS_BUNDLE = "pdus";
-    private static final String ACTION_SMS_NEW = "android.provider.Telephony.SMS_DELIVER";
+    private static final String ACTION_SMS_NEW = "android.provider.Telephony.SMS_RECEIVED";
+    private String address;
+    private long smsTime;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void onReceive(Context context, Intent intent) {
-        Bundle intentExtras = intent.getExtras();
+//        Bundle intentExtras = intent.getExtras();
+//
+//        if (intentExtras != null) {
+//            Object[] sms = (Object[]) intentExtras.get(SMS_BUNDLE);
+//            StringBuilder smsMessageStr = new StringBuilder();
+//            ContentValues values = new ContentValues();
+//            for (Object sm : Objects.requireNonNull(sms)) {
+//                String format = intentExtras.getString("format");
+//                SmsMessage smsMessage = SmsMessage.createFromPdu((byte[]) sm, format);
+//
+//                String smsBody = smsMessage.getMessageBody();
+//                String address = smsMessage.getOriginatingAddress();
+//                int smsIndex = smsMessage.getIndexOnIcc();
+//                long smsTime = smsMessage.getTimestampMillis();
+//                Date date = new Date(smsTime);
+//
+//                /*smsMessageStr.append("REF: ").append(smsIndex).append("\n");
+//                smsMessageStr.append("From: ").append(address).append("\n");
+//                smsMessageStr.append(smsBody).append("\n");
+//                smsMessageStr.append("Date: ").append(date).append("\n");*/
+////                Log.e("Auto Print SMS Broad...", "New sms ref: " + smsBody);
+//
+//                //Save to inbox if message is delivered
+//                final String action = intent.getAction();
+//                if (ACTION_SMS_NEW.equals(action)) {
+//                    values.put("address", address); // phone number to send
+//                    values.put("date", smsTime);
+//                    values.put("read", "1"); // if you want to mark it as unread set to 0
+//                    values.put("type", "1"); // 2 means sent message
+//                    values.put("body", smsBody);
+//                    Uri uri = Uri.parse("content://sms/");
+//                    context.getContentResolver().insert(uri, values);
+//                }
+//
+//                /*MainActivity inst = MainActivity.instance();
+//                inst.updateInbox(smsMessageStr.toString());
+//                inst.refreshSmsInbox();
+//                inst.refreshSmsInbox();*/
+//            }
+//
+//            /* Notification Tone */
+//            try {
+//                Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+//                Ringtone r = RingtoneManager.getRingtone(context.getApplicationContext(), notification);
+//                r.play();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        /*Auto Print Comes in*/
+//        MainActivity inst = MainActivity.instance();
+//        inst.refreshSmsInbox();
+//        inst.autoPrint();
+        String myApp = context.getPackageName();
+        MainActivity inst = MainActivity.instance();
+        inst.refreshSmsInbox();
 
-        if (intentExtras != null) {
-            Object[] sms = (Object[]) intentExtras.get(SMS_BUNDLE);
-            StringBuilder smsMessageStr = new StringBuilder();
-            ContentValues values = new ContentValues();
-            for (Object sm : Objects.requireNonNull(sms)) {
-                String format = intentExtras.getString("format");
-                SmsMessage smsMessage = SmsMessage.createFromPdu((byte[]) sm, format);
+        /*New logic*/
+        if (Objects.equals(intent.getAction(), ACTION_SMS_NEW)) {
+            Bundle bundle = intent.getExtras();
+            if (bundle != null) {
+                // get sms objects
+                Object[] pdus = (Object[]) bundle.get("pdus");
+                assert pdus != null;
+                if (pdus.length == 0) {
+                    return;
+                }
+                SmsMessage[] messages = new SmsMessage[pdus.length];
+                ContentValues values = new ContentValues();
+//                StringBuilder smsMessageStr = new StringBuilder();
+                for (int i = 0; i < pdus.length; i++) {
+                    messages[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);
 
-                String smsBody = smsMessage.getMessageBody();
-                String address = smsMessage.getOriginatingAddress();
-                int smsIndex = smsMessage.getIndexOnIcc();
-                long smsTime = smsMessage.getTimestampMillis();
-                Date date = new Date(smsTime);
+                    address = messages[i].getOriginatingAddress();
+                    smsTime = messages[i].getTimestampMillis();
+                }
 
-                /*smsMessageStr.append("REF: ").append(smsIndex).append("\n");
-                smsMessageStr.append("From: ").append(address).append("\n");
-                smsMessageStr.append(smsBody).append("\n");
-                smsMessageStr.append("Date: ").append(date).append("\n");*/
-//                Log.e("Auto Print SMS Broad...", "New sms ref: " + smsBody);
+                // If SMS has several parts, let's combine it
+                StringBuilder bodyText = new StringBuilder();
+                for (SmsMessage message : messages) {
+                    bodyText.append(message.getMessageBody());
+                }
+//                Log.e("Auto Print SMS Broad...", "New sms body: " + bodyText);
+//                smsMessageStr.append("REF: ").append(smsIndex).append("\n");
+//                smsMessageStr.append("From: ").append(address).append("\n");
+//                smsMessageStr.append(bodyText).append("\n");
+//                smsMessageStr.append("Date: ").append(smsTime).append("\n");
 
-                //Save to inbox if message is delivered
-                final String action = intent.getAction();
-                if (ACTION_SMS_NEW.equals(action)) {
+//                Log.e("Auto Print SMS Broad...", "sms body: " + bodyText);
+//                Log.e("SmsBroadcast:onReceive: ", "Sender: " + address);
+
+//                MainActivity inst = MainActivity.instance();
+//                inst.refreshSmsInbox();
+//                inst.updateInbox(smsMessageStr.toString());
+//                inst.refreshSmsInbox();
+
+                /*Save to inbox if message is received*/
+                if (myApp.equals(Telephony.Sms.getDefaultSmsPackage(context))) {
                     values.put("address", address); // phone number to send
                     values.put("date", smsTime);
                     values.put("read", "1"); // if you want to mark it as unread set to 0
                     values.put("type", "1"); // 2 means sent message
-                    values.put("body", smsBody);
+                    values.put("body", String.valueOf(bodyText));
                     Uri uri = Uri.parse("content://sms/");
                     context.getContentResolver().insert(uri, values);
                 }
-
-                /*MainActivity inst = MainActivity.instance();
-                inst.updateInbox(smsMessageStr.toString());
-                inst.refreshSmsInbox();
-                inst.refreshSmsInbox();*/
             }
 
             /* Notification Tone */
@@ -72,10 +142,14 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+            /* Refresh inbox after upload */
+            //inst.updateInboxN();
+            inst.refreshSmsInbox();
+
+            /*Auto Print Comes in*/
+            inst.autoP(smsTime);
+            //inst.autoPrint();
         }
-        /*Auto Print Comes in*/
-        MainActivity inst = MainActivity.instance();
-        inst.refreshSmsInbox();
-        inst.autoPrint();
     }
 }

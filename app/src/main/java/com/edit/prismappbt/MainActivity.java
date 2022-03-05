@@ -18,6 +18,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -101,6 +102,7 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
     String msg;
     int btStatus = 0;
     int btConnStatus = 0;
+    private String newText;
 
     /*Intercepting messages.*/
 
@@ -219,7 +221,9 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
     }
 
     public void licenceCheck(MenuItem i) {
-        if (deviceId.equals("e30360c8e147a88b")) {
+        if (deviceId.equals("d59e0fab5123b8a9")) {
+            //Android 10: e2f1ea1b1ad83b59
+            //Jimmy:aaba8029d4e07093
             //1fc74ff9a9ebb122 fcf52d5c63cb4676
             //Emulator Android6 60b5215570850192
             Toast.makeText(getApplicationContext(), "You are licensed.",
@@ -233,15 +237,21 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
         }
     }
 
+    public void refreshInbox(MenuItem i) {
+        refreshSmsInbox();
+    }
+
     //Printer Activation and Deactivation
     public void printOn(MenuItem i) {
-        if (deviceId.equals("e30360c8e147a88b")) {
+        if (deviceId.equals("d59e0fab5123b8a9")) {
             /*set BT Conn ON*/
 
             //Privileged
             myLay2.setVisibility(View.VISIBLE);
             /*findBT();
             openBT();*/
+//            Intent intent=new Intent(MainActivity.this,BTConnActivity.class);
+//            startActivity(intent);
 
             if (btConnStatus == 1) {
                 Toast.makeText(getApplicationContext(), "Printing activated.",
@@ -472,7 +482,7 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
 
         //Get Verifier
         deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-        //System.out.println(deviceId);
+        Log.e("DEVICE ID", "onCreate: " + deviceId );
         setContentView(R.layout.activity_main);
 
         // Get the application context
@@ -505,7 +515,6 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
             Toast.makeText(this, "Android version is not supported.",
                     Toast.LENGTH_SHORT).show();
         }
-        onGetSp();
         /*print functionality*/
         messages.setOnItemClickListener((adapterView, view, i, l) -> {
             if (powerLaunch == 1) {
@@ -518,7 +527,7 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
                         .setPositiveButton("PRINT", (dialogInterface, i12) -> {
                             /* Converting listView element to string. */
                             msg = spHeader + "\n" + ((TextView) view).getText() + "\n" + spFooter + "\n" +
-                            "\n" + "\n" + "\n" + "\n";
+                            "\n" + "\n" + "\n" + "\n" + "\n";
                             //Log.e("My clicked sms", "Content: \n" + msg);
                             //Debug
                             /*
@@ -583,6 +592,8 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
         prnAct.setOnClickListener(view -> onPrnOpen());
 
         prnDea.setOnClickListener(view -> onPrnOpen());
+
+        onGetSp();
     }
 
     @Override
@@ -885,24 +896,59 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
         sendBroadcast(disablePowerKeyIntent);
     }
 
-    public void autoPrint() {
-//        System.out.println("New dataFour: " + arrayAdapter.getItem(0)); /*Working well*/
+    /**
+     * New auto print logic
+     */
+    public void autoP(long timestamp) {
         refreshSmsInbox();
-        String newText = arrayAdapter.getItem(0);
-        refreshSmsInbox();
-        if (powerLaunch == 1) {
-            refreshSmsInbox();
-            refreshSmsInbox();
-            refreshSmsInbox();
-            msg = spHeader + "\n" + newText + "\n" + spFooter + "\n" + "\n" + "\n" + "\n";
+        ContentResolver contentResolver = getContentResolver();
+        Cursor smsInboxCursor = contentResolver.query(Uri.parse("content://sms/inbox"),
+                null, /*String.valueOf(timestamp)*/null, null, null);
+        assert smsInboxCursor != null;
+        smsInboxCursor.moveToFirst();
+        int indexBody = smsInboxCursor.getColumnIndex("body");
+        int indexAddress = smsInboxCursor.getColumnIndex("address");
+        int indexDate = smsInboxCursor.getColumnIndex("date");
+        int indexId = smsInboxCursor.getColumnIndex("_id");
+        do {
+            long timeMillis = smsInboxCursor.getLong(indexDate);
+            Date date = new Date(timeMillis);
+            if (timeMillis == timestamp) {
+                newText = "REF: " + smsInboxCursor.getString(indexId) + "\n"
+                        + "From: " + smsInboxCursor.getString(indexAddress) + "\n"
+                        + smsInboxCursor.getString(indexBody) + "\n"
+                        + "Date: " + date + "\n";
+            }
+        } while (smsInboxCursor.moveToNext());
+        smsInboxCursor.close();
+//        Log.e("autoP: ", "AutoP "+ newText);
+        if (powerLaunch == 1 && !newText.isEmpty()) {
+            msg = spHeader + "\n" + newText + "\n" + spFooter + "\n" + "\n" + "\n" + "\n" + "\n" + "\n";
             sendData();
         } else {
             Toast.makeText(getApplicationContext(), "Activate print to engage auto-printing.",
                     Toast.LENGTH_SHORT).show();
-            refreshSmsInbox();
         }
-
     }
+
+//    public void autoPrint() {
+////        System.out.println("New dataFour: " + arrayAdapter.getItem(0)); /*Working well*/
+//        refreshSmsInbox();
+//        String newText = arrayAdapter.getItem(0);
+//        refreshSmsInbox();
+//        if (powerLaunch == 1) {
+//            refreshSmsInbox();
+//            refreshSmsInbox();
+//            refreshSmsInbox();
+//            msg = spHeader + "\n" + newText + "\n" + spFooter + "\n" + "\n" + "\n" + "\n";
+//            sendData();
+//        } else {
+//            Toast.makeText(getApplicationContext(), "Activate print to engage auto-printing.",
+//                    Toast.LENGTH_SHORT).show();
+//            refreshSmsInbox();
+//        }
+//
+//    }
 
     //BT Configs
     // this will find a bluetooth printer device

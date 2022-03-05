@@ -12,10 +12,15 @@
         android:onClick="licenceCheck"
         app:showAsAction="never"/>
     <item
+        android:title="Refresh Inbox"
+        android:id="@+id/refreshInbox"
+        android:onClick="refreshInbox"
+        app:showAsAction="never"/>
+    <item
         android:title="Activate Printing"
         android:onClick="printOn"
         android:id="@+id/printerOn"
-        app:showAsAction="never"        />
+        app:showAsAction="never"/>
 
     <item
         android:title="Deactivate Printing"
@@ -26,6 +31,7 @@
     <item
         android:title="Print Logo"
         android:onClick="onClickBmp"
+        android:visible="false"
         app:showAsAction="never" />
     <item
         android:title="Default Activity"
