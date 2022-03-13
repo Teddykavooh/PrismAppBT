@@ -1,49 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:layout_gravity="center"
     android:layout_margin="30dp"
-    android:id="@+id/lay2">
+    tools:context="com.edit.prismappbt.BTConnActivity">
 
     <TextView
-        android:id="@+id/label"
+        android:id="@+id/label0T"
+        android:textSize="20sp"
+        android:text="Bluetooth Activity:"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
 
     <TextView
-        android:layout_below="@+id/label"
-        android:id="@+id/label1"
+        android:layout_below="@+id/label0T"
+        android:id="@+id/labelT"
+        android:textSize="15sp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_below="@+id/labelT"
+        android:id="@+id/label1T"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:textSize="20sp"
         android:text="Type here to test:" />
 
     <EditText
-        android:id="@+id/entry"
+        android:id="@+id/entryT"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/label1" />
+        android:layout_below="@id/label1T" />
 
     <TextView
-        android:id="@+id/label2"
+        android:id="@+id/label2T"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Paired Devices:"
-        android:layout_below="@id/entry"
+        android:layout_below="@id/entryT"
+        android:textSize="20sp"
         android:layout_marginBottom="10dp"/>
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/listV"
-        android:layout_below="@+id/label2"
+        android:maxHeight="500dp"
+        android:id="@+id/listVT"
+        android:layout_below="@+id/label2T"
         android:visibility="gone"/>
 
     <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/radioG"
-        android:layout_below="@+id/listV">
+        android:id="@+id/radioGT"
+        android:layout_below="@+id/listVT">
 
     </RadioGroup>
 
@@ -52,34 +67,34 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:id="@+id/btnV"
-        android:layout_below="@id/radioG">
+        android:layout_below="@id/radioGT">
 
         <Button
-            android:id="@+id/open"
+            android:id="@+id/openT"
             android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:text="BT"
-            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
             android:onClick="onFind" />
 
         <Button
-            android:id="@+id/connect"
+            android:id="@+id/connectT"
             android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:text="Conn"
-            android:layout_marginRight="5dp"
-            android:onClick="onConn" />
+            android:layout_marginEnd="5dp"
+            android:onClick="onConn"/>
 
         <Button
-            android:id="@+id/send"
+            android:id="@+id/sendT"
             android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:text="Test"
-            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
             android:onClick="onTest" />
 
         <Button
-            android:id="@+id/close"
+            android:id="@+id/closeT"
             android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:text="Close"
@@ -93,5 +108,5 @@
         android:layout_alignParentEnd="true"
         android:layout_below="@+id/btnV"
         android:background="@drawable/ic_baseline_arrow_back_24"
-        android:onClick="onArrBack" />
+        android:onClick="onArrBack4" />
 </RelativeLayout>
