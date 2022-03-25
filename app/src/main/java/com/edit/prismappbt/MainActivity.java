@@ -221,7 +221,7 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
     }
 
     public void licenceCheck(MenuItem i) {
-        if (deviceId.equals("d59e0fab5123b8a9")) {
+        if (deviceId.equals("")) {
             //Android 10: e2f1ea1b1ad83b59
             //Jimmy:aaba8029d4e07093
             //1fc74ff9a9ebb122 fcf52d5c63cb4676
@@ -243,7 +243,7 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
 
     //Printer Activation and Deactivation
     public void printOn(MenuItem i) {
-        if (deviceId.equals("d59e0fab5123b8a9")) {
+        if (deviceId.equals("")) {
             /*set BT Conn ON*/
 
             //Privileged
