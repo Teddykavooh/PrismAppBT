@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
                 return  true;
             case R.id.bt3:
                 Toast.makeText(getApplicationContext(), "Bluetooth is connected to: " +
-                                mmDevice.getName(), Toast.LENGTH_SHORT).show();
+                        mmDevice.getName(), Toast.LENGTH_SHORT).show();
                 return  true;
             case R.id.delete:
                 //delete alert Dialog
@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
                         .setNegativeButton("BACK", null)
                         .show();
             default:
-            return false;
+                return false;
         }
     }
 
@@ -231,7 +231,8 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
 
             //System.out.println("Device ID: " + deviceId);
         } else {
-            Toast.makeText(getApplicationContext(), "You are unlicensed.",
+            Toast.makeText(getApplicationContext(), "You are unlicensed.\nYour ID is: " +
+                            deviceId,
                     Toast.LENGTH_SHORT).show();
             //System.out.println("Device ID: " + deviceId);
         }
@@ -526,8 +527,8 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
                         .setMessage("Print this message?")
                         .setPositiveButton("PRINT", (dialogInterface, i12) -> {
                             /* Converting listView element to string. */
-                            msg = spHeader + "\n" + ((TextView) view).getText() + "\n" + spFooter + "\n" +
-                            "\n" + "\n" + "\n" + "\n" + "\n";
+                            msg = spHeader + "\n" + "COPY\n" + ((TextView) view).getText() + "\n" + spFooter + "\n" +
+                                    "\n" + "\n" + "\n" + "\n" + "\n";
                             //Log.e("My clicked sms", "Content: \n" + msg);
                             //Debug
                             /*
@@ -751,13 +752,13 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
 
             // Do something, when permissions not granted
             if(ActivityCompat.shouldShowRequestPermissionRationale(
-                mActivity,Manifest.permission.READ_SMS)
+                    mActivity,Manifest.permission.READ_SMS)
 //                    || ActivityCompat.shouldShowRequestPermissionRationale(
 //                    mActivity,Manifest.permission.READ_CONTACTS)
-                || ActivityCompat.shouldShowRequestPermissionRationale(
-                mActivity,Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                || ActivityCompat.shouldShowRequestPermissionRationale(
-                        mActivity,Manifest.permission.RECEIVE_SMS)){
+                    || ActivityCompat.shouldShowRequestPermissionRationale(
+                    mActivity,Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    || ActivityCompat.shouldShowRequestPermissionRationale(
+                    mActivity,Manifest.permission.RECEIVE_SMS)){
                 // If we should give explanation of requested permissions
 
                 // Show an alert dialog here with request explanation
@@ -923,7 +924,7 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
         smsInboxCursor.close();
 //        Log.e("autoP: ", "AutoP "+ newText);
         if (powerLaunch == 1 && !newText.isEmpty()) {
-            msg = spHeader + "\n" + newText + "\n" + spFooter + "\n" + "\n" + "\n" + "\n" + "\n" + "\n";
+            msg = spHeader + "\n" + "ORIGINAL\n" + newText + "\n" + spFooter + "\n" + "\n" + "\n" + "\n" + "\n" + "\n";
             sendData();
         } else {
             Toast.makeText(getApplicationContext(), "Activate print to engage auto-printing.",
