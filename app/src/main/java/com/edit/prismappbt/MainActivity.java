@@ -222,10 +222,6 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
 
     public void licenceCheck(MenuItem i) {
         if (deviceId.equals("")) {
-            //Android 10: e2f1ea1b1ad83b59
-            //Jimmy:aaba8029d4e07093
-            //1fc74ff9a9ebb122 fcf52d5c63cb4676
-            //Emulator Android6 60b5215570850192
             Toast.makeText(getApplicationContext(), "You are licensed.",
                     Toast.LENGTH_SHORT).show();
 
