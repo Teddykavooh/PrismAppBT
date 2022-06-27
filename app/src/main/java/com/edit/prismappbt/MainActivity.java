@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
                 return  true;
             case R.id.bt3:
                 Toast.makeText(getApplicationContext(), "Bluetooth is connected to: " +
-                                mmDevice.getName(), Toast.LENGTH_SHORT).show();
+                        mmDevice.getName(), Toast.LENGTH_SHORT).show();
                 return  true;
             case R.id.delete:
                 //delete alert Dialog
@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
                         .setNegativeButton("BACK", null)
                         .show();
             default:
-            return false;
+                return false;
         }
     }
 
@@ -221,17 +221,14 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
     }
 
     public void licenceCheck(MenuItem i) {
-        if (deviceId.equals("d59e0fab5123b8a9")) {
-            //Android 10: e2f1ea1b1ad83b59
-            //Jimmy:aaba8029d4e07093
-            //1fc74ff9a9ebb122 fcf52d5c63cb4676
-            //Emulator Android6 60b5215570850192
+        if (deviceId.equals("")) {
             Toast.makeText(getApplicationContext(), "You are licensed.",
                     Toast.LENGTH_SHORT).show();
 
             //System.out.println("Device ID: " + deviceId);
         } else {
-            Toast.makeText(getApplicationContext(), "You are unlicensed.",
+            Toast.makeText(getApplicationContext(), "You are unlicensed.\nYour ID is: " +
+                            deviceId,
                     Toast.LENGTH_SHORT).show();
             //System.out.println("Device ID: " + deviceId);
         }
@@ -243,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
 
     //Printer Activation and Deactivation
     public void printOn(MenuItem i) {
-        if (deviceId.equals("d59e0fab5123b8a9")) {
+        if (deviceId.equals("")) {
             /*set BT Conn ON*/
 
             //Privileged
@@ -526,8 +523,8 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
                         .setMessage("Print this message?")
                         .setPositiveButton("PRINT", (dialogInterface, i12) -> {
                             /* Converting listView element to string. */
-                            msg = spHeader + "\n" + ((TextView) view).getText() + "\n" + spFooter + "\n" +
-                            "\n" + "\n" + "\n" + "\n" + "\n";
+                            msg = spHeader + "\n" + "COPY\n" + ((TextView) view).getText() + "\n" + spFooter + "\n" +
+                                    "\n" + "\n" + "\n" + "\n" + "\n";
                             //Log.e("My clicked sms", "Content: \n" + msg);
                             //Debug
                             /*
@@ -751,13 +748,13 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
 
             // Do something, when permissions not granted
             if(ActivityCompat.shouldShowRequestPermissionRationale(
-                mActivity,Manifest.permission.READ_SMS)
+                    mActivity,Manifest.permission.READ_SMS)
 //                    || ActivityCompat.shouldShowRequestPermissionRationale(
 //                    mActivity,Manifest.permission.READ_CONTACTS)
-                || ActivityCompat.shouldShowRequestPermissionRationale(
-                mActivity,Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                || ActivityCompat.shouldShowRequestPermissionRationale(
-                        mActivity,Manifest.permission.RECEIVE_SMS)){
+                    || ActivityCompat.shouldShowRequestPermissionRationale(
+                    mActivity,Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    || ActivityCompat.shouldShowRequestPermissionRationale(
+                    mActivity,Manifest.permission.RECEIVE_SMS)){
                 // If we should give explanation of requested permissions
 
                 // Show an alert dialog here with request explanation
@@ -923,7 +920,7 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
         smsInboxCursor.close();
 //        Log.e("autoP: ", "AutoP "+ newText);
         if (powerLaunch == 1 && !newText.isEmpty()) {
-            msg = spHeader + "\n" + newText + "\n" + spFooter + "\n" + "\n" + "\n" + "\n" + "\n" + "\n";
+            msg = spHeader + "\n" + "ORIGINAL\n" + newText + "\n" + spFooter + "\n" + "\n" + "\n" + "\n" + "\n" + "\n";
             sendData();
         } else {
             Toast.makeText(getApplicationContext(), "Activate print to engage auto-printing.",
