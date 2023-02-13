@@ -71,15 +71,18 @@
         <!--            android:layout_alignParentEnd="true"-->
         <!--            android:layout_alignParentRight="true" />-->
         <Button
+            android:id="@+id/saveB"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SAVE DETAILS"
-            android:textStyle="bold"
             android:layout_below="@+id/footer"
             android:layout_centerHorizontal="true"
-            android:id="@+id/saveB"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
             android:onClick="headFootFunc"
-            android:layout_margin="10dp" />
+            android:text="SAVE DETAILS"
+            android:textStyle="bold" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

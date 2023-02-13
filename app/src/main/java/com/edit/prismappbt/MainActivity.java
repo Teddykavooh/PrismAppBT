@@ -18,7 +18,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -50,18 +49,18 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-import org.apache.commons.lang3.StringUtils;
 
 public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppSelectedListener {
     ArrayList<String> smsMessagesList = new ArrayList<>();
@@ -221,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
     }
 
     public void licenceCheck(MenuItem i) {
-        if (deviceId.equals("")) {
+        if (deviceId.equals("a849c8d53b70fd84")) {
             Toast.makeText(getApplicationContext(), "You are licensed.",
                     Toast.LENGTH_SHORT).show();
 
@@ -240,7 +239,7 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
 
     //Printer Activation and Deactivation
     public void printOn(MenuItem i) {
-        if (deviceId.equals("")) {
+        if (deviceId.equals("a849c8d53b70fd84")) {
             /*set BT Conn ON*/
 
             //Privileged
@@ -304,6 +303,11 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
     public void onStyle(MenuItem i) {
         Intent aboutIntent = new Intent(MainActivity.this, ReceiptStyleActivity.class);
         startActivity(aboutIntent);
+    }
+
+    public void onReports(MenuItem i) {
+        Intent reportIntent = new Intent(MainActivity.this, ReportActivity.class);
+        startActivity(reportIntent);
     }
 
     public void onArrBack(View v) {
@@ -844,6 +848,7 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
 //            System.out.println("My bloody Id: " + smsInboxCursor.getString(indexId));
             //System.out.println("My count: " + arrayAdapter.getItem(1));
         } while (smsInboxCursor.moveToNext());
+        smsInboxCursor.close();
         //messages.setSelection(arrayAdapter.getCount() - 1);
         /*Cont.*/
         messages.setSelectionFromTop(index, top);

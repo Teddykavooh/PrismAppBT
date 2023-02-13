@@ -44,7 +44,7 @@ public class ReceiptStyleActivity extends AppCompatActivity {
     }
 
     public void headFootFunc(View v) {
-        myData = getSharedPreferences("com.prisms.smsapp1", MODE_PRIVATE);
+        myData = getSharedPreferences("com.edit.prismappbt", MODE_PRIVATE);
         myHeader = header.getText().toString();
         myFooter = footer.getText().toString();
         SharedPreferences.Editor editor = myData.edit();

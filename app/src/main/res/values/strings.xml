@@ -28,5 +28,5 @@
     <string name="btM1">No bluetooth adapter available.</string>
     <string name="btM3">Bluetooth Opened.</string>
     <string name="datasnt">Data sent.</string>
-    <string name="btM4">Bluetooth Closed.</string>
+    <string name="btM4">Bluetooth Conn Closed.</string>
 </resources>

@@ -44,6 +44,12 @@
         android:visible="true"
         app:showAsAction="never"/>
     <item
+        android:title="Reports"
+        android:id="@+id/reps"
+        android:onClick="onReports"
+        android:visible="true"
+        app:showAsAction="never"/>
+    <item
         android:title="About"
         android:onClick="onAbout"
         app:showAsAction="never"
