@@ -29,4 +29,14 @@
     <string name="btM3">Bluetooth Opened.</string>
     <string name="datasnt">Data sent.</string>
     <string name="btM4">Bluetooth Conn Closed.</string>
+    <string name="my_reports">My Reports:</string>
+    <string name="today_s_reports">(Today\'s Reports)</string>
+    <string name="transaction_amount">Transaction Amount:</string>
+    <string name="transaction_cost">Trnsaction Cost:</string>
+    <string name="value">value</string>
+    <string name="account_balance">Account Balance:</string>
+    <string name="generate_csv">Generate CSV</string>
+    <string name="tester">Tester</string>
+    <string name="strip">Strip</string>
+    <string name="back_to_main_view">Back to main view</string>
 </resources>
