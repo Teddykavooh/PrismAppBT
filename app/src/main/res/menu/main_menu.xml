@@ -1,63 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:context=".activities.MenuAdsAppCompatActivity">
 
-    <item
-        android:title="@string/delete_all_threads"
-        android:id="@+id/delete" />
-    <item
-        android:title="@string/license_status"
-        android:id="@+id/licence"
-        android:onClick="licenceCheck"
-        app:showAsAction="never"/>
-    <item
-        android:title="Refresh Inbox"
-        android:id="@+id/refreshInbox"
-        android:onClick="refreshInbox"
-        app:showAsAction="never"/>
-    <item
-        android:title="Activate Printing"
-        android:onClick="printOn"
-        android:id="@+id/printerOn"
-        app:showAsAction="never"/>
-
-    <item
-        android:title="Deactivate Printing"
-        android:onClick="printOff"
-        android:visible="false"
-        android:id="@+id/printerOff"
-        app:showAsAction="never" />
-    <item
-        android:title="Print Logo"
-        android:onClick="onClickBmp"
-        android:visible="false"
-        app:showAsAction="never" />
-    <item
-        android:title="Default Activity"
-        android:onClick="mkDefault"
-        app:showAsAction="never"/>
-    <item
-        android:title="Receipt Style"
-        android:id="@+id/recStyle"
-        android:onClick="onStyle"
-        android:visible="true"
-        app:showAsAction="never"/>
-    <item
-        android:title="Reports"
-        android:id="@+id/reps"
-        android:onClick="onReports"
-        android:visible="true"
-        app:showAsAction="never"/>
-    <item
-        android:title="About"
-        android:onClick="onAbout"
-        app:showAsAction="never"
-        android:visible="false"/>
-    <item
-        android:title="@string/exit"
-        android:id="@+id/exit"
-        app:showAsAction="never"/>
     <item
         android:title="BluetoothDis"
         android:id="@+id/bt"
@@ -93,4 +39,80 @@
         android:icon="@drawable/ic_baseline_print_disabled_24"
         app:showAsAction="always"
         android:onClick="iconOff"/>
+
+    <!--options_menu_icon_hack-->
+    <item
+        android:id="@+id/action_notification1"
+        android:icon="@android:drawable/ic_menu_more"
+        android:title="action_option_menu"
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/delete"
+                android:icon="@android:drawable/ic_menu_delete"
+                android:title="@string/delete_all_threads" />
+            <item
+                android:id="@+id/licence"
+                android:icon="@drawable/ic_baseline_verified_24"
+                android:onClick="licenceCheck"
+                android:title="@string/license_status"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/refreshInbox"
+                android:icon="@drawable/ic_baseline_refresh_24"
+                android:onClick="refreshInbox"
+                android:title="Refresh Inbox"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/printerOn"
+                android:icon="@drawable/ic_baseline_local_printshop_24"
+                android:onClick="printOn"
+                android:title="Activate Printing"
+                app:showAsAction="never" />
+
+            <item
+                android:id="@+id/printerOff"
+                android:icon="@drawable/ic_baseline_print_disabled_24_hidden_menu"
+                android:onClick="printOff"
+                android:title="Deactivate Printing"
+                android:visible="false"
+                app:showAsAction="never" />
+            <item
+                android:icon="@drawable/ic_action_about"
+                android:onClick="onClickBmp"
+                android:title="Print Logo"
+                android:visible="false"
+                app:showAsAction="never" />
+            <item
+                android:icon="@drawable/ic_baseline_stars_24"
+                android:onClick="mkDefault"
+                android:title="Default Activity"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/recStyle"
+                android:icon="@drawable/ic_baseline_format_shapes_24"
+                android:onClick="onStyle"
+                android:title="Receipt Style"
+                android:visible="true"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/reps"
+                android:icon="@drawable/ic_baseline_analytics_24"
+                android:onClick="onReports"
+                android:title="Reports"
+                android:visible="true"
+                app:showAsAction="never" />
+            <item
+                android:icon="@drawable/ic_baseline_read_more_24"
+                android:onClick="onAbout"
+                android:title="About"
+                android:visible="false"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/exit"
+                android:icon="@drawable/ic_lock_power_off"
+                android:title="@string/exit"
+                app:showAsAction="never" />
+        </menu>
+    </item>
 </menu>
