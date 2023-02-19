@@ -92,8 +92,11 @@
                 <data android:scheme="mmsto" />
             </intent-filter>
         </service>
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
-<!--        <service android:name="apidemo.service.MyService" android:exported="false"/>-->
+        <!--        <service android:name="apidemo.service.MyService" android:exported="false"/>-->
 
     </application>
 

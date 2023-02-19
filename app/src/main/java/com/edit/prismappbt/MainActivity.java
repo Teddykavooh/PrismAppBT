@@ -27,6 +27,7 @@ import android.provider.Settings;
 import android.provider.Telephony;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -60,6 +61,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -470,6 +472,18 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        /** Action Bar */
+        Objects.requireNonNull(this.getSupportActionBar()).setDisplayShowHomeEnabled(true);
+        this.getSupportActionBar().setLogo(R.drawable.ic_red_bird);
+        this.getSupportActionBar().setDisplayUseLogoEnabled(true);
+        //AppName
+        this.getSupportActionBar().setDisplayShowCustomEnabled(true);
+        this.getSupportActionBar().setDisplayShowTitleEnabled(false);
+        LayoutInflater myInflator = LayoutInflater.from(this);
+        View v = myInflator.inflate(R.layout.action_bar_text, null);
+        v.findViewById(R.id.title);
+        this.getSupportActionBar().setCustomView(v);
 
         IntentFilter filter1 = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
         registerReceiver(mBroadcastReceiver, filter1);
