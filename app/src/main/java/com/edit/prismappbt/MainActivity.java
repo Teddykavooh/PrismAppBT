@@ -18,6 +18,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -50,6 +51,7 @@ import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.core.graphics.TypefaceCompat;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -223,16 +225,24 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
     }
 
     public void licenceCheck(MenuItem i) {
-        if (deviceId.equals("a849c8d53b70fd84")) {
+        if (deviceId.equals("808be1b27acb6dc0")) {
             Toast.makeText(getApplicationContext(), "You are licensed.",
                     Toast.LENGTH_SHORT).show();
-
             //System.out.println("Device ID: " + deviceId);
+            //CS10: 808be1b27acb6dc0
+            //Samsung: a849c8d53b70fd84
         } else {
             Toast.makeText(getApplicationContext(), "You are unlicensed.\nYour ID is: " +
                             deviceId,
                     Toast.LENGTH_SHORT).show();
             //System.out.println("Device ID: " + deviceId);
+            new AlertDialog.Builder(this)
+                    .setIcon(R.drawable.ic_red_bird)
+                    .setTitle("LICENSE STATUS")
+                    .setMessage("Device ID: " + deviceId + "\n" + "In need of activation?\n" +
+                            "Call 0721555001, 0726465617\n" + "or\n" + "email: androidposkenya.co.ke")
+                    .setNegativeButton("Back", null)
+                    .show();
         }
     }
 
@@ -242,7 +252,7 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
 
     //Printer Activation and Deactivation
     public void printOn(MenuItem i) {
-        if (deviceId.equals("a849c8d53b70fd84")) {
+        if (deviceId.equals("808be1b27acb6dc0")) {
             /*set BT Conn ON*/
 
             //Privileged
@@ -475,7 +485,7 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
 
         /** Action Bar */
         Objects.requireNonNull(this.getSupportActionBar()).setDisplayShowHomeEnabled(true);
-        this.getSupportActionBar().setLogo(R.drawable.ic_red_bird);
+        this.getSupportActionBar().setLogo(R.drawable.ic_newbticon_32);
         this.getSupportActionBar().setDisplayUseLogoEnabled(true);
         //AppName
         this.getSupportActionBar().setDisplayShowCustomEnabled(true);
@@ -483,6 +493,10 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
         LayoutInflater myInflator = LayoutInflater.from(this);
         View v = myInflator.inflate(R.layout.action_bar_text, null);
         v.findViewById(R.id.title);
+        if (Build.VERSION.SDK_INT > 26) {
+            Typeface title_font = ResourcesCompat.getFont(this, R.font.akronim);
+            ((TextView)v.findViewById(R.id.title)).setTypeface(title_font);
+        }
         this.getSupportActionBar().setCustomView(v);
 
         IntentFilter filter1 = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
