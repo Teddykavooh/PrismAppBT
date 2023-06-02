@@ -19,7 +19,5 @@ This is the bluetooth enabled version of PrismApp.
 <img alt="Screenshot_20230601_174918" src="https://github.com/Teddykavooh/PrismAppBT/assets/39087913/427f0d74-37a0-472a-a01a-621d53e3c6f1" width="250" height="auto">
 
 ## Video;
-<!-- ![Screenshot_20230601_174813](https://github.com/Teddykavooh/PrismAppBT/assets/39087913/a6ab8d4f-8c12-46b3-9d62-27401dd7b381)
-![Screenshot_20230601_174835](https://github.com/Teddykavooh/PrismAppBT/assets/39087913/914a6fe4-e142-4305-834d-cde446f6e7d6)
-![Screenshot_20230601_174918](https://github.com/Teddykavooh/PrismAppBT/assets/39087913/427f0d74-37a0-472a-a01a-621d53e3c6f1) -->
 
+https://github.com/Teddykavooh/PrismAppBT/assets/39087913/bd00cb3d-6c0c-4778-898d-0c4b411fd2bd
