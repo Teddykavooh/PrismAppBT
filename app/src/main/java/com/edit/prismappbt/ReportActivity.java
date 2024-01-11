@@ -9,6 +9,7 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -47,6 +48,18 @@ public class ReportActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reports);
         myToast = Toast.makeText(this, "Populating...", Toast.LENGTH_SHORT);
+        TextView folderLink = findViewById(R.id.folderLink);
+        folderLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + "/PrismApp/Reports";
+                Uri uri = Uri.parse(path);
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                Log.e("onClick: ", "Path: " + path);
+                intent.setDataAndType(uri, "*/*");
+                startActivity(intent);
+            }
+        });
     }
 
     public void ret_Home(View v) {

@@ -118,4 +118,4 @@ output.json
 # End of https://www.toptal.com/developers/gitignore/api/android
 
 # ignore this folder
-/.idea/
+/.idea

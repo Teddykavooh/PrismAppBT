@@ -99,7 +99,7 @@
                 android:id="@+id/reps"
                 android:icon="@drawable/ic_baseline_analytics_24"
                 android:onClick="onReports"
-                android:title="Reports"
+                android:title="Reports `*Beta`"
                 android:visible="true"
                 app:showAsAction="never" />
             <item

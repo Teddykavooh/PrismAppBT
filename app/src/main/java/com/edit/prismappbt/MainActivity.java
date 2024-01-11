@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
     private Button prnAct;
     private Button prnDea;
     private String deviceId;
+    private final String meID = "";
     int powerLaunch = 0;
     SharedPreferences myData;
     private String spHeader;
@@ -225,7 +226,7 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
     }
 
     public void licenceCheck(MenuItem i) {
-        if (deviceId.equals("808be1b27acb6dc0")) {
+        if (deviceId.equals(meID)) {
             Toast.makeText(getApplicationContext(), "You are licensed.",
                     Toast.LENGTH_SHORT).show();
             //System.out.println("Device ID: " + deviceId);
@@ -239,8 +240,8 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
             new AlertDialog.Builder(this)
                     .setIcon(R.drawable.ic_red_bird)
                     .setTitle("LICENSE STATUS")
-                    .setMessage("Device ID: " + deviceId + "\n" + "In need of activation?\n" +
-                            "Call 0721555001, 0726465617\n" + "or\n" + "email: androidposkenya.co.ke")
+                    .setMessage("In need of activation?\n" + "Call +254721555001, +254797847747\n" +
+                            "or\n" + "email: renotechsystemsltd@gmail.com")
                     .setNegativeButton("Back", null)
                     .show();
         }
@@ -252,7 +253,7 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
 
     //Printer Activation and Deactivation
     public void printOn(MenuItem i) {
-        if (deviceId.equals("808be1b27acb6dc0")) {
+        if (deviceId.equals(meID)) {
             /*set BT Conn ON*/
 
             //Privileged
@@ -274,8 +275,8 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
             new AlertDialog.Builder(MainActivity.this)
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setTitle("VERIFICATION")
-                    .setMessage("In need of activation?\n" + "Call 0721555001, 0726465617\n"
-                            + "or\n" + "email: androidposkenya.co.ke")
+                    .setMessage("In need of activation?\n" + "Call +254721555001, +254797847747\n" +
+                            "or\n" + "email: renotechsystemsltd@gmail.com")
                     .setNegativeButton("BACK", null)
                     .show();
         }
@@ -494,7 +495,7 @@ public class MainActivity extends AppCompatActivity implements AppsDialog.OnAppS
         View v = myInflator.inflate(R.layout.action_bar_text, null);
         v.findViewById(R.id.title);
         if (Build.VERSION.SDK_INT > 26) {
-            Typeface title_font = ResourcesCompat.getFont(this, R.font.akronim);
+            Typeface title_font = ResourcesCompat.getFont(this, R.font.delius_swash_caps);
             ((TextView)v.findViewById(R.id.title)).setTypeface(title_font);
         }
         this.getSupportActionBar().setCustomView(v);
